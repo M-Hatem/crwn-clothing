@@ -1,10 +1,10 @@
-import { signInWithGooglePopup } from "../../includes/firebase";
+import { signInWithGooglePopup, createUsers } from "../../includes/firebase";
 
 const SignIn = () => {
   const signInWithGoogle = async () => {
-    const response = await signInWithGooglePopup();
-
-    console.log(response);
+    const { user } = await signInWithGooglePopup();
+    const userDocRef = await createUsers(user);
+    console.log(userDocRef);
   };
 
   return (
