@@ -2,9 +2,9 @@ import { initializeApp } from "firebase/app";
 
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -22,20 +22,26 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // For google signin
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
 // To Export google authentication
-export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+const auth = getAuth();
+const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 
-export const db = getFirestore();
-export const createUsers = async (userAuth) => {
+// To create collection for users in firestore
+const db = getFirestore();
+const createUsers = async (userAuth) => {
+  if (!userAuth) return;
+  // This Ref is the collection that is created
   const userDocRef = doc(db, "users", userAuth.uid);
+
+  // Snapshot for the document of the user that should be recorded in firestore
   const userSnapShot = await getDoc(userDocRef);
 
+  // If it doesn't exist create it
   if (!userSnapShot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
@@ -48,4 +54,19 @@ export const createUsers = async (userAuth) => {
   }
 
   return userDocRef;
+};
+
+// To create user with email and password only
+const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export {
+  auth,
+  signInWithGooglePopup,
+  db,
+  createUsers,
+  createAuthUserWithEmailAndPassword,
 };
