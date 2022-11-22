@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import {
   createAuthUserWithEmailAndPassword,
@@ -7,6 +7,8 @@ import {
 
 import FormInput from "../../form-input/form-input.component";
 import Button from "../../button/button.component";
+import { UserContext } from "../../../context/user.context";
+
 import "./sign-up-form.styles.scss";
 
 // Default values for form fields
@@ -20,6 +22,9 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+
+  // To access user context
+  const { setCurrentUser } = useContext(UserContext);
 
   // For reseting form fields
   const resetFormFields = () => {
@@ -38,6 +43,9 @@ const SignUpForm = () => {
       const result = await createAuthUserWithEmailAndPassword(email, password);
       // To add display name as it's null by default form firebase
       const editedUser = { ...result.user, displayName };
+      // To pass user to user context
+      setCurrentUser(editedUser);
+
       await createUsers(editedUser);
 
       resetFormFields();
