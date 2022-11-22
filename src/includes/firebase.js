@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -72,9 +73,14 @@ const signInAuthUserWithEmailAndPassword = async (email, password) => {
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
+// To sign out user from firebase
 const signOutUser = async () => {
   await signOut(auth);
 };
+
+// To use observable for tracking if the user is signed in or out
+const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
 
 export {
   auth,
@@ -84,4 +90,5 @@ export {
   createAuthUserWithEmailAndPassword,
   signInAuthUserWithEmailAndPassword,
   signOutUser,
+  onAuthStateChangedListener,
 };

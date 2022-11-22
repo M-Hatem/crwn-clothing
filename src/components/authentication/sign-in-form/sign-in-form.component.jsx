@@ -1,12 +1,10 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import FormInput from "../../form-input/form-input.component";
 import Button from "../../button/button.component";
-import { UserContext } from "../../../context/user.context";
 
 import {
   signInWithGooglePopup,
-  createUsers,
   signInAuthUserWithEmailAndPassword,
 } from "../../../includes/firebase";
 
@@ -21,9 +19,6 @@ const defaultFormFields = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
-
-  // To get access to user context values {currentUser , setCurrentUser}
-  const { setCurrentUser } = useContext(UserContext);
 
   // For reseting form fields
   const resetFormFields = () => {
@@ -40,7 +35,8 @@ const SignInForm = () => {
         password
       );
 
-      setCurrentUser(user);
+      // To change the value of current user in user context
+      // setCurrentUser(user);
 
       resetFormFields();
     } catch (err) {
@@ -66,7 +62,9 @@ const SignInForm = () => {
   // To sign in with google
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
-    await createUsers(user);
+
+    // To change the value of current user in user context
+    // setCurrentUser(user);
   };
 
   return (
