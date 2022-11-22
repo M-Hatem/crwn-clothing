@@ -3,10 +3,10 @@ import { useState } from "react";
 import {
   createAuthUserWithEmailAndPassword,
   createUsers,
-} from "../../includes/firebase";
+} from "../../../includes/firebase";
 
-import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import FormInput from "../../form-input/form-input.component";
+import Button from "../../button/button.component";
 import "./sign-up-form.styles.scss";
 
 // Default values for form fields
@@ -93,7 +93,7 @@ const SignUpForm = () => {
           name="confirmPassword"
         />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Sign up</Button>
       </form>
     </div>
   );
