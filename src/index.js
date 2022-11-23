@@ -1,14 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 
 import App from "./App";
+
 import { UserProvider } from "./context/user.context";
 import { ProductsProvider } from "./context/products.context";
+import { CartProvider } from "./context/cart.context";
 
 import "./index.scss";
-
-import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,7 +19,10 @@ root.render(
       <UserProvider>
         {/* To be able to access products context and user data at the same time */}
         <ProductsProvider>
-          <App />
+          {/* To be able to access cart context to open or close the cart menu */}
+          <CartProvider>
+            <App />
+          </CartProvider>
         </ProductsProvider>
       </UserProvider>
     </BrowserRouter>

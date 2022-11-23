@@ -30,10 +30,7 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
 
       // To change the value of current user in user context
       // setCurrentUser(user);
@@ -61,7 +58,7 @@ const SignInForm = () => {
 
   // To sign in with google
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
+    await signInWithGooglePopup();
 
     // To change the value of current user in user context
     // setCurrentUser(user);
