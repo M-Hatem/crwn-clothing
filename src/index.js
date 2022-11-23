@@ -4,6 +4,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import App from "./App";
 import { UserProvider } from "./context/user.context";
+import { ProductsProvider } from "./context/products.context";
 
 import "./index.scss";
 
@@ -13,9 +14,12 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* To be able to access user context */}
+      {/* To be able to access user context but can't access products data */}
       <UserProvider>
-        <App />
+        {/* To be able to access products context and user data at the same time */}
+        <ProductsProvider>
+          <App />
+        </ProductsProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
