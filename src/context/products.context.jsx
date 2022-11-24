@@ -1,21 +1,29 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 
-import PRODUCTS from "../shop-data.json";
+import { getCollectionAndDocuments } from "../includes/firebase";
 
-const ProductsContext = createContext({
-  products: [],
-  setProducts: () => null,
+const CategoriesContext = createContext({
+  categories: {},
+  setCategories: () => null,
 });
 
-const ProductsProvider = ({ children }) => {
-  const [products, setProducts] = useState(PRODUCTS);
-  const value = { products, setProducts };
+const CategoriesProvider = ({ children }) => {
+  const [categories, setCategories] = useState({});
+  const value = { categories, setCategories };
+
+  // To get all categories from database
+  useEffect(() => {
+    (async () => {
+      const getCategories = await getCollectionAndDocuments();
+      setCategories(getCategories);
+    })();
+  }, []);
 
   return (
-    <ProductsContext.Provider value={value}>
+    <CategoriesContext.Provider value={value}>
       {children}
-    </ProductsContext.Provider>
+    </CategoriesContext.Provider>
   );
 };
 
-export { ProductsContext, ProductsProvider };
+export { CategoriesContext, CategoriesProvider };
