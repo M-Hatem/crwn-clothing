@@ -2,9 +2,13 @@ import { useContext } from "react";
 
 import { CartContext } from "../../context/cart.context";
 
-import Button from "../button/button.component";
+import { Button, buttonStyles } from "../button/button.component";
 
-import "./product-card.styles.scss";
+import {
+  ProductCardContainer,
+  ProductImage,
+  ProductFooter,
+} from "./product-card.styles";
 
 const ProductCard = ({ product }) => {
   // De-structuring the product object
@@ -19,17 +23,17 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product-card-container">
-      <img src={imageUrl} alt={name} />
-      <div className="footer">
+    <ProductCardContainer>
+      <ProductImage src={imageUrl} alt={name} />
+      <ProductFooter>
         <span className="name">{name}</span>
         <span className="price">${price}</span>
-      </div>
+      </ProductFooter>
 
-      <Button buttonType="inverted" onClick={addItem}>
+      <Button buttonType={buttonStyles.inverted} onClick={addItem}>
         Add to card
       </Button>
-    </div>
+    </ProductCardContainer>
   );
 };
 
